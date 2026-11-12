@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>BrainSpark Arena</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.min.css" rel="stylesheet" type="text/css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+</head>
+<body>
+  <!-- 1. Splash Screen -->
+  <div id="splash-screen">
+    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiI+CiAgPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJiZ0QiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiM3YzJkMTIiLz48c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iI2VhNTgwYyIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2ZhY2MxNSIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPgogIDxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iMTE2IiBmaWxsPSJ1cmwoI2JnRCkiLz4KICA8Y2lyY2xlIGN4PSIyNTYiIGN5PSIyNTYiIHI9IjE2NSIgZmlsbD0iIzE4MTgxYiIgb3BhY2l0eT0iMC44NSIgc3Ryb2tlPSIjZmRlMDQ3IiBzdHJva2Utd2lkdGg9IjE0Ii8+CiAgPHRleHQgeD0iMjU2IiB5PSIzMDIiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNDIiIGZvbnQtd2VpZ2h0PSI5MDAiIGZpbGw9IiNmZGUwNDciIHRleHQtYW5jaG9yPSJtaWRkbGUiPkJBPC90ZXh0Pjwvc3ZnPg==" width="72" height="72" style="border-radius:18px;box-shadow:0 8px 24px rgba(0,0,0,0.5);margin:0 auto 12px auto;display:block;"/>
+    <h1 style="margin:14px 0 4px 0;font-size:24px;font-weight:800;color:#ffffff;">BrainSpark Arena</h1>
+    <p style="margin:0;font-size:12px;color:#38bdf8;letter-spacing:1.2px;">VERSION 1.0 • CLOUD READY</p>
+  </div>
+
+  <!-- 2. Slide-out Premium Profile Drawer -->
+  <div id="drawer-backdrop" onclick="FactoryNav.closeDrawer()"></div>
+  <aside id="profile-drawer">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+      <strong style="font-size:16px;color:#ffffff;">BrainSpark Arena</strong>
+      <button type="button" onclick="FactoryNav.closeDrawer()" style="min-height:32px;padding:4px 10px;background:#1e293b !important;">X</button>
+    </div>
+    <div class="sf-hero-card" style="margin-bottom:12px;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div id="drawer-avatar-txt" class="sf-avatar-circle">U</div>
+        <div style="min-width:0;flex:1;">
+          <div id="drawer-user-name" style="font-size:15px;font-weight:800;color:#ffffff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Guest User</div>
+          <div id="drawer-user-phone" style="font-size:12px;color:#cbd5e1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Not signed in</div>
+          <div style="display:flex;align-items:center;gap:6px;margin-top:4px;">
+            <span id="drawer-user-id" style="font-size:11px;color:#38bdf8;font-weight:700;">ID: SF100001</span>
+            <button type="button" onclick="FactoryEngine.copyUserId()" style="min-height:22px;padding:2px 8px;font-size:10px;background:#0f172a !important;border:1px solid #38bdf8;">Copy</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sf-stat-grid" style="margin-bottom:12px;">
+      <div class="sf-stat-box" style="padding:10px;">
+        <div style="font-size:10px;color:#94a3b8;">REWARDS</div>
+        <div id="drawer-stat-pts" style="font-size:14px;font-weight:800;color:#34d399;">100 Pts</div>
+      </div>
+      <div class="sf-stat-box" style="padding:10px;">
+        <div style="font-size:10px;color:#94a3b8;">ENGINE</div>
+        <div style="font-size:13px;font-weight:800;color:#38bdf8;">Live Sync</div>
+      </div>
+    </div>
+    <button type="button" onclick="FactoryNav.closeDrawer();FactoryNav.switchTab(1);" class="sf-menu-item"><span>Home Dashboard</span><span>&rsaquo;</span></button>
+    <button type="button" onclick="FactoryNav.closeDrawer();FactoryNav.switchTab(2);" class="sf-menu-item"><span>Main Workspace</span><span>&rsaquo;</span></button>
+    <button type="button" onclick="FactoryNav.closeDrawer();FactoryNav.switchTab(3);" class="sf-menu-item"><span>Records & Insights</span><span>&rsaquo;</span></button>
+    <button type="button" onclick="FactoryNav.closeDrawer();FactoryEngine.openReferShare();" class="sf-menu-item"><span>Refer & Share</span><span>&rsaquo;</span></button>
+    <button type="button" onclick="FactoryNav.closeDrawer();FactoryEngine.openTutorial();" class="sf-menu-item"><span>App Guide / Tutorial</span><span>&rsaquo;</span></button>
+    <button type="button" onclick="FactoryNav.closeDrawer();FactoryNav.switchTab(4);" class="sf-menu-item"><span>Profile & Account</span><span>&rsaquo;</span></button>
+    <button type="button" onclick="FactoryNav.logout()" style="width:100%;margin-top:12px;background:#dc2626 !important;">Log Out</button>
+  </aside>
+
+  <!-- 3. Universal Modal Container -->
+  <div id="app-modal"></div>
+
+  <!-- 4. Login View -->
+  <section id="view-login">
+    <div class="login-card" style="background:linear-gradient(135deg,#3b0764,#0f172a);border:1px solid #a855f7;">
+      <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiI+CiAgPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJiZ0QiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiM3YzJkMTIiLz48c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iI2VhNTgwYyIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2ZhY2MxNSIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPgogIDxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iMTE2IiBmaWxsPSJ1cmwoI2JnRCkiLz4KICA8Y2lyY2xlIGN4PSIyNTYiIGN5PSIyNTYiIHI9IjE2NSIgZmlsbD0iIzE4MTgxYiIgb3BhY2l0eT0iMC44NSIgc3Ryb2tlPSIjZmRlMDQ3IiBzdHJva2Utd2lkdGg9IjE0Ii8+CiAgPHRleHQgeD0iMjU2IiB5PSIzMDIiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNDIiIGZvbnQtd2VpZ2h0PSI5MDAiIGZpbGw9IiNmZGUwNDciIHRleHQtYW5jaG9yPSJtaWRkbGUiPkJBPC90ZXh0Pjwvc3ZnPg==" width="72" height="72" style="border-radius:18px;box-shadow:0 8px 24px rgba(0,0,0,0.5);margin:0 auto 12px auto;display:block;"/>
+      <h2 style="margin:0 0 6px 0;text-align:center;font-size:22px;font-weight:800;color:#ffffff;">Welcome to BrainSpark Arena</h2>
+      <p style="margin:0 0 18px 0;text-align:center;font-size:13px;color:#cbd5e1;">Sign in to sync your account with cloud</p>
+      <label class="sf-label">Full Name / Business Name</label>
+      <input id="login-name" type="text" placeholder="Enter your name" style="width:100%;margin-bottom:12px;">
+      <label class="sf-label">10-Digit Mobile Number</label>
+      <input id="login-phone" type="tel" maxlength="10" placeholder="Enter 10-digit mobile" style="width:100%;margin-bottom:12px;">
+      <label class="sf-label">Gmail / Email (For Real OTP)</label>
+      <div style="display:flex;gap:8px;margin-bottom:12px;">
+        <input id="login-email" type="email" placeholder="you@gmail.com" style="flex:1;">
+        <button id="send-otp-btn" type="button" onclick="FactoryNav.sendOtp()" style="white-space:nowrap;background:#2563eb !important;">Send Email OTP</button>
+      </div>
+      <div id="otp-verify-wrap" style="display:none;margin-bottom:12px;">
+        <label class="sf-label">Enter 6-Digit Email OTP</label>
+        <div style="display:flex;gap:8px;">
+          <input id="login-otp" type="text" maxlength="8" placeholder="Enter OTP" style="flex:1;">
+          <button type="button" onclick="FactoryNav.verifyAndLogin()" style="background:#10b981 !important;">Verify OTP</button>
+        </div>
+      </div>
+      <button id="login-submit-btn" type="button" onclick="FactoryNav.submitLogin()" style="width:100%;background:linear-gradient(135deg,#10b981,#0ea5e9) !important;">Continue</button>
+    </div>
+  </section>
+
+  <!-- 5. Authenticated App Shell -->
+  <div id="app-shell" style="display:none;">
+    <header id="app-header">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <button type="button" onclick="FactoryNav.openDrawer()" class="sf-avatar-btn" aria-label="Profile Menu">
+          <span id="header-avatar-txt">U</span>
+        </button>
+        <span style="font-size:16px;font-weight:800;color:#ffffff;">BrainSpark Arena</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <button type="button" onclick="FactoryEngine.openNotifications()" class="icon-btn" style="min-height:34px;padding:6px 8px;" aria-label="Notifications">
+          <i data-lucide="bell"></i>
+        </button>
+        <span id="header-badge" class="header-pill">100 Pts</span>
+      </div>
+    </header>
+
+    <main id="app-main">
+      <div id="notice-banner" style="display:none;" class="notice-pill"></div>
+      <div style="margin-bottom:12px;">
+        <input id="app-search-bar" type="search" placeholder="Search items, records, or actions..." oninput="if(window.onSearchInput) window.onSearchInput(this.value);">
+      </div>
+      <section id="view-1" class="tab-view"></section>
+      <section id="view-2" class="tab-view" style="display:none;"></section>
+      <section id="view-3" class="tab-view" style="display:none;"></section>
+      <section id="view-4" class="tab-view" style="display:none;"></section>
+      <section id="view-detail" class="tab-view" style="display:none;"></section>
+    </main>
+
+    <button id="floating-cta" type="button" onclick="if(window.onFloatingAction) window.onFloatingAction(); else FactoryNav.switchTab(2);" aria-label="Quick Action">
+      <i data-lucide="plus"></i>
+    </button>
+
+    <nav id="bottom-nav">
+      <button id="nav-1" type="button" onclick="FactoryNav.switchTab(1)" class="nav-btn active-tab">
+        <i data-lucide="home"></i><span>Home</span>
+      </button>
+      <button id="nav-2" type="button" onclick="FactoryNav.switchTab(2)" class="nav-btn">
+        <i data-lucide="layout-grid"></i><span>Actions</span>
+      </button>
+      <button id="nav-3" type="button" onclick="FactoryNav.switchTab(3)" class="nav-btn">
+        <i data-lucide="book-open"></i><span>Records</span>
+      </button>
+      <button id="nav-4" type="button" onclick="FactoryNav.switchTab(4)" class="nav-btn">
+        <i data-lucide="user"></i><span>Profile</span>
+      </button>
+    </nav>
+  </div>
+
+  <script src="db.js"></script>
+  <script src="components.js"></script>
+  <script src="app.js"></script>
+  <div id="sf-error-bar" style="display:none;position:fixed;top:8px;left:10px;right:10px;z-index:99999;background:#7f1d1d;color:#fecaca;border:1px solid #f87171;border-radius:12px;padding:10px 12px;font-size:12px;font-weight:700;box-shadow:0 8px 24px rgba(0,0,0,0.7);"></div>
+  <script>
+    window.onerror = function(msg, url, line) {
+      var eb = document.getElementById("sf-error-bar");
+      if (eb) { eb.style.display = "block"; eb.textContent = "Runtime Guard: " + msg + " (Line " + line + ")"; }
+    };
+    setTimeout(function() {
+      var s = document.getElementById("splash-screen");
+      if (s) s.classList.add("hide");
+      if (!window.FactoryNav || !window.FactoryDB || !window.FactoryEngine) {
+        var eb = document.getElementById("sf-error-bar");
+        if (eb) { eb.style.display = "block"; eb.textContent = "Engine Check Failed: Core JS module did not load cleanly."; }
+      }
+    }, 1500);
+  </script>
+</body>
+</html>
